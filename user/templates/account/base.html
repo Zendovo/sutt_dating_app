@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+<html>
+	<head>
+        <title>{% block head_title %}{% endblock %}</title>
+        {% block extra_head %}
+        {% endblock %}
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+	</head>
+	<body class="homepage is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+
+					<!-- Logo -->
+						<h1><a href="/">Dating App</a></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="/">Home</a></li>
+								{% if user.is_authenticated %}
+								<li><a href="/accounts/profile">Profile</a></li>
+								<li><a href="/accounts/logout">Logout</a></li>
+								{% else %}
+								<li><a href="/accounts/login">Login</a></li>
+								{% endif %}
+								<li><a href="/about">About Us</a></li>
+							</ul>
+						</nav>
+
+					<!-- Banner -->
+						{% comment %} <section id="banner">
+							<header>
+								<h2>Howdy. This is Dopetrope.</h2>
+								<p>A responsive template by HTML5 UP</p>
+							</header>
+						</section> {% endcomment %}
+
+					<!-- Intro -->
+						{% comment %} <section id="intro" class="container">
+							<div class="row">
+								<div class="col-4 col-12-medium">
+									<section class="first">
+										<i class="icon solid featured fa-cog"></i>
+										<header>
+											<h2>Ipsum consequat</h2>
+										</header>
+										<p>Nisl amet dolor sit ipsum veroeros sed blandit consequat veroeros et magna tempus.</p>
+									</section>
+								</div>
+								<div class="col-4 col-12-medium">
+									<section class="middle">
+										<i class="icon solid featured alt fa-bolt"></i>
+										<header>
+											<h2>Magna etiam dolor</h2>
+										</header>
+										<p>Nisl amet dolor sit ipsum veroeros sed blandit consequat veroeros et magna tempus.</p>
+									</section>
+								</div>
+								<div class="col-4 col-12-medium">
+									<section class="last">
+										<i class="icon solid featured alt2 fa-star"></i>
+										<header>
+											<h2>Tempus adipiscing</h2>
+										</header>
+										<p>Nisl amet dolor sit ipsum veroeros sed blandit consequat veroeros et magna tempus.</p>
+									</section>
+								</div>
+							</div>
+							<footer>
+								<ul class="actions">
+									<li><a href="#" class="button large">Get Started</a></li>
+									<li><a href="#" class="button alt large">Learn More</a></li>
+								</ul>
+							</footer>
+						</section> {% endcomment %}
+
+
+				</section>
+
+			<!-- Main -->
+				<section id="main">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+                                {% block body %}
+
+                                {% if messages %}
+                                <div>
+                                    <strong>Messages:</strong>
+                                    <ul>
+                                      {% for message in messages %}
+                                      <li>{{message}}</li>
+                                      {% endfor %}
+                                    </ul>
+                                  </div>
+                                {% endif %}
+                                {% block content %}
+                                {% endblock %}
+                                {% endblock %}
+                                {% block extra_body %}
+                                {% endblock %}
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+				<section id="footer">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Copyright -->
+									<div id="copyright">
+										<ul class="links">
+											<li>&copy; SUTT Dating App. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+										</ul>
+									</div>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.dropotron.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

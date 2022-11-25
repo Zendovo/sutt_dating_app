@@ -63,3 +63,29 @@ async function sendRequest(profileId) {
 
     window.location.replace('/')
 }
+
+function openReportModal(profileId) {
+    var modal = new bootstrap.Modal(document.getElementById('reportModal'))
+    document.getElementById('reportModalBtn').setAttribute('onclick', `sendReport(${profileId})`)
+    modal.show()
+}
+
+async function sendReport(profileId) {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    formData = new FormData()
+    formData.append("profile_id", profileId)
+    formData.append("message", document.getElementById('reportMessage').value)
+    await fetch(`/report/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        mode: 'same-origin',
+        body: formData
+    })
+
+    window.location.replace('/')
+}
+
+async function deleteAccount(profile_id) {
+    // 
+}

@@ -1,25 +1,28 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 {% block head_title %}
-    {% trans "Chat Requests" %}
+    {% trans "Reports" %}
 {% endblock head_title %}
 {% block content %}
     {% csrf_token %}
     <div>
-        {% for request in page_obj %}
+        {% for report in page_obj %}
             <div class="card">
                 <div class="card-body row">
                     <div class="col-8">
-                        <h5 class="card-title">{{ request.req_from.first_name }} {{ request.req_from.last_name }}</h5>
-                        <h6 class="class-subtitle">Age: {{ request.req_from.age }}</h6>
-                        <h6 class="class-subtitle">{{ request.req_from.user.email }}</h6>
-                        <p class="card-text">{{ request.req_from.about }}</p>
+                        <h5 class="card-title">{{ report.reported.first_name }} {{ report.reported.last_name }}</h5>
+                        <h6 class="class-subtitle">Age: {{ report.reported.age }}</h6>
+                        <h6 class="class-subtitle">{{ report.reported.user.email }}</h6>
+                        <p class="card-text">{{ report.reported.about }}</p>
+                        <h6 class="class-subtitle">Report Message:</h6>
+                        <p class="card-text">{{ report.message }}</p>
                     </div>
                     <div class="col-4">
                         <div class="row">
                             <div class="d-flex flex-row-reverse">
-                                <button class="btn btn-secondary m-1" onclick="decline({{ request.id }})">Decline</button>
-                                <button class="btn btn-success m-1" onclick="accept({{ request.id }})">Accept</button>
+                                <button class="btn btn-danger m-1" onclick="deleteAccount({{ request.id }})">Delete Account</button>
+                                <button class="btn btn-warning m-1" onclick="deleteReport({{ request.id }})">Delete Report</button>
+                                <button class="btn btn-secondary m-1" onclick="ignoreReport({{ request.id }})">Ignore</button>
                             </div>
                         </div>
                     </div>

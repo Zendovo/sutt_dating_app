@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import Index, BlockUser, BlockView, RequestsView, Requests
+from .views import Index, BlockUser, BlockView, RequestsView, Requests, ModReportsView, ReportsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +24,9 @@ urlpatterns = [
     path('request/<int:request_id>', Requests),
     path('block/', BlockView),
     path('block/<int:profile_id>', BlockUser),
+    path('mod_reports/', ModReportsView),
+    path('report/', ReportsView),
+    path('report/<int:profile_id>', ReportsView),
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('user.urls'))
 ]

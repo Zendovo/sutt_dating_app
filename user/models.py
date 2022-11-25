@@ -88,6 +88,8 @@ class UserProfile(models.Model):
         'UserProfile', related_name='blocked_by', through='BlockList', symmetrical=False, blank=False)
     chat_requests = models.ManyToManyField(
         'UserProfile', related_name='requests_received', through='ChatRequest', symmetrical=False, blank=False)
+    reports = models.ManyToManyField(
+        'UserProfile', related_name='reports_received', through='Reports', symmetrical=False, blank=False)
 
     def __str__(self):
         return self.user.email + ' profile'
@@ -114,10 +116,26 @@ class ChatRequest(models.Model):
         UserProfile, related_name="user_from", on_delete=models.CASCADE)
     req_to = models.ForeignKey(
         UserProfile, related_name="user_to", on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, choices=[('A', 'Accepted'), ('D', 'Declined'), ('N', 'Unseen')], default='U', null=False)
+    status = models.CharField(max_length=1, choices=[(
+        'A', 'Accepted'), ('D', 'Declined'), ('N', 'Unseen')], default='U', null=False)
 
     class Meta:
         unique_together = ('req_from', 'req_to')
 
     def __str__(self):
         return self.req_from.user.email + " requested " + self.req_to.user.email
+
+
+class Reports(models.Model):
+    created = models.DateTimeField(auto_now_add=True, editable=True)
+    message = models.CharField(max_length=300, null=True)
+    reporter = models.ForeignKey(
+        UserProfile, related_name="report_by", on_delete=models.CASCADE)
+    reported = models.ForeignKey(
+        UserProfile, related_name="reported_user", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('reporter', 'reported')
+
+    def __str__(self):
+        return self.reporter.user.email + " reported " + self.reported.user.email

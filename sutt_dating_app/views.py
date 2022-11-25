@@ -2,7 +2,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
-from user.models import UserProfile, BlockList, ChatRequest
+from user.models import UserProfile, BlockList, ChatRequest, Reports
+from user.decorators import moderator_required
 
 
 @login_required
@@ -73,7 +74,6 @@ def RequestsView(request):
         page_obj = paginator.get_page(page_number)
         return render(request, 'sutt_dating_app/requests.html', {'page_obj': page_obj})
     elif request.method == 'POST':
-        print(request.POST)
         request_to = int(request.POST['profile_id'])
         request_to = UserProfile.objects.get(id=request_to)
         message = request.POST['message']
@@ -85,3 +85,38 @@ def RequestsView(request):
             req_from=request.user.userprofile, req_to=request_to, message=message)
 
         return redirect('/chat_pending/')
+
+
+@login_required
+@moderator_required
+def ModReportsView(request):
+    if request.method == 'GET':
+        reports = Reports.objects.all()
+        paginator = Paginator(reports, 2)
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'sutt_dating_app/reports.html', {'page_obj': page_obj})
+    else:
+        return HttpResponseNotFound
+
+
+@login_required
+@moderator_required
+def ModReportsAction(request):
+    if request.method == 'POST':
+        return
+
+
+@login_required
+def ReportsView(request):
+    if request.method == 'POST':
+        reported = int(request.POST['profile_id'])
+        reported = UserProfile.objects.get(id=reported)
+        message = request.POST['message']
+        print(message)
+
+        Reports.objects.create(
+            message=message, reported=reported, reporter=request.user.userprofile)
+
+        return redirect('/')

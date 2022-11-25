@@ -19,7 +19,7 @@
                         <div class="d-flex flex-row-reverse">
                             <button class="btn btn-success m-1" onclick="openRequestModal({{ profile.id }})">Send Chat Request</button>
                             <button class="btn btn-warning m-1" onclick="block({{ profile.id }})">Block</button>
-                            <button class="btn btn-secondary m-1" onclick="report({{ profile.id }})">Report</button>
+                            <button class="btn btn-secondary m-1" onclick="openReportModal({{ profile.id }})">Report</button>
                         </div>
                     </div>
                 </div>
@@ -59,6 +59,31 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" onclick="sendRequest()" id="chatRequestModalBtn" class="btn btn-success">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade"
+         id="reportModal"
+         tabindex="-1"
+         aria-labelledby="reportModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">Report placeholder</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea name="message" class="form-area" id="reportMessage" cols="30" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="sendReport()" id="reportModalBtn" class="btn btn-warning">Report</button>
                 </div>
             </div>
         </div>

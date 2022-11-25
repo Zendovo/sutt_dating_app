@@ -28,6 +28,7 @@
 							<ul>
 								<li><a href="/">Home</a></li>
 								{% if user.is_authenticated %}
+								<li><a href="/block">Blocklist</a></li>
 								<li><a href="/accounts/profile">Profile</a></li>
 								<li><a href="/accounts/logout">Logout</a></li>
 								{% else %}

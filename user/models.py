@@ -44,7 +44,6 @@ class CustomAccountManager(BaseUserManager):
         return self.create_user(email, password, **other_fields)
 
 
-
 class NewUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_('email address'), unique=True)
@@ -65,10 +64,41 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
 
 class UserProfile(models.Model):
+    MALE = 'M'
+    FEMALE = 'F'
+    NONBINARY = 'N'
+
+    gender_choices = [(MALE, 'Male'), (FEMALE, 'Female'),
+                      (NONBINARY, 'NonBinary')]
+
+    preference_choices = [(MALE, 'Male'), (FEMALE, 'Female'),
+                          (NONBINARY, 'NonBinary'), ('B', 'Both')]
+
     user = models.OneToOneField(NewUser, on_delete=models.CASCADE)
     age = models.IntegerField()
-    first_name = models.CharField(max_length=100, blank=False)    
+    gender = models.CharField(
+        max_length=1, choices=gender_choices, default=NONBINARY)
+    preference = models.CharField(
+        max_length=1, choices=preference_choices, default='B')
+    first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, null=True, blank=True)
+    about = models.CharField(max_length=3000)
+    blocklist = models.ManyToManyField(
+        'UserProfile', related_name='blocked_by', through='BlockList', blank=False)
 
     def __str__(self):
         return self.user.email
+
+
+class BlockList(models.Model):
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    blocker = models.ForeignKey(
+        UserProfile, related_name="user_blocking", on_delete=models.CASCADE)
+    blocked = models.ForeignKey(
+        UserProfile, related_name="user_blocked", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('blocker', 'blocked')
+
+    def __str__(self):
+        return self.blocker_id.email + " blocked " + self.blocked_id.email

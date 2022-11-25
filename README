@@ -1,0 +1,7 @@
+TODO:
+
+- add a profile needed middleware to check if the user has a valid profile before giving access
+- add chats
+- pending chats
+- moderator functionality
+- reports system

@@ -4,7 +4,7 @@
     {% trans "Profile" %}
 {% endblock head_title %}
 {% block content %}
-{% csrf_token %}
+    {% csrf_token %}
     {% for profile in page_obj %}
         <div class="card">
             <div class="card-body row">
@@ -17,7 +17,7 @@
                 <div class="col-4">
                     <div class="row">
                         <div class="d-flex flex-row-reverse">
-                            <button class="btn btn-success m-1" onclick="chatRequest({{ profile.id }})">Send Chat Request</button>
+                            <button class="btn btn-success m-1" onclick="openRequestModal({{ profile.id }})">Send Chat Request</button>
                             <button class="btn btn-warning m-1" onclick="block({{ profile.id }})">Block</button>
                             <button class="btn btn-secondary m-1" onclick="report({{ profile.id }})">Report</button>
                         </div>
@@ -38,5 +38,29 @@
                 <a href="?page={{ page_obj.paginator.num_pages }}">last >></a>
             {% endif %}
         </span>
+    </div>
+    <div class="modal fade"
+         id="chatRequestModal"
+         tabindex="-1"
+         aria-labelledby="chatRequestModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chatRequestModalLabel">Send Chat Request to placeholder</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea name="message" class="form-area" id="chatRequestMessage" cols="30" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="sendRequest()" id="chatRequestModalBtn" class="btn btn-success">Send</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

@@ -15,9 +15,13 @@
                     <p class="card-text">{{ profile.about }}</p>
                 </div>
                 <div class="col-4">
-                    <button class="btn btn-success" onclick="chatRequest({{ profile.id }})">Send Chat Request</button>
-                    <button class="btn btn-warning" onclick="block({{ profile.id }})">Block</button>
-                    <button class="btn btn-secondary" onclick="report({{ profile.id }})">Report</button>
+                    <div class="row">
+                        <div class="d-flex flex-row-reverse">
+                            <button class="btn btn-success m-1" onclick="chatRequest({{ profile.id }})">Send Chat Request</button>
+                            <button class="btn btn-warning m-1" onclick="block({{ profile.id }})">Block</button>
+                            <button class="btn btn-secondary m-1" onclick="report({{ profile.id }})">Report</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

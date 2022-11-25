@@ -16,7 +16,11 @@
                         <p class="card-text">{{ profile.about }}</p>
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-danger" onclick="unblock({{ profile.id }})">Unblock</button>
+                        <div class="row">
+                            <div class="d-flex flex-row-reverse">
+                                <button class="btn btn-danger m-1" onclick="unblock({{ profile.id }})">Unblock</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,9 +35,8 @@
             <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
             {% if page_obj.has_next %}
                 <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last >> </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last >></a>
             {% endif %}
         </span>
     </div>
-
 {% endblock content %}

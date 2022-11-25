@@ -67,24 +67,25 @@ class UserProfile(models.Model):
     MALE = 'M'
     FEMALE = 'F'
     NONBINARY = 'N'
+    BOTH = 'B'
 
     gender_choices = [(MALE, 'Male'), (FEMALE, 'Female'),
                       (NONBINARY, 'NonBinary')]
 
     preference_choices = [(MALE, 'Male'), (FEMALE, 'Female'),
-                          (NONBINARY, 'NonBinary'), ('B', 'Both')]
+                          (NONBINARY, 'NonBinary'), (BOTH, 'Both')]
 
     user = models.OneToOneField(NewUser, on_delete=models.CASCADE)
     age = models.IntegerField()
     gender = models.CharField(
         max_length=1, choices=gender_choices, default=NONBINARY)
     preference = models.CharField(
-        max_length=1, choices=preference_choices, default='B')
+        max_length=1, choices=preference_choices, default=BOTH)
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     about = models.CharField(max_length=3000)
     blocklist = models.ManyToManyField(
-        'UserProfile', related_name='blocked_by', through='BlockList', blank=False)
+        'UserProfile', related_name='blocked_by', through='BlockList', symmetrical=False, blank=False)
 
     def __str__(self):
         return self.user.email
@@ -101,4 +102,4 @@ class BlockList(models.Model):
         unique_together = ('blocker', 'blocked')
 
     def __str__(self):
-        return self.blocker_id.email + " blocked " + self.blocked_id.email
+        return self.blocker.user.email + " blocked " + self.blocked.user.email

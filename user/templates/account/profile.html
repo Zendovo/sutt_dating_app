@@ -1,24 +1,88 @@
 {% extends "account/base.html" %}
-
 {% load i18n %}
-
-{% block head_title %}{% trans "Profile" %}{% endblock %}
-
+{% block head_title %}
+  {% trans "Profile" %}
+{% endblock head_title %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <label for="email">Email</label><br>
-    <input type="text" name="email" value="{{ user.email }}" disabled>
-    <br>
-    <label for="age">Age</label><br>
-    <input type="number" name="age" min="18" max="100" value="{{ profile.age }}" required>
-    <br>
-    <label for="fname">First Name</label><br>
-    <input type="text" name="fname" value="{{ profile.first_name }}" required>
-    <br>
-    <label for="lname">Last Name</label><br>
-    <input type="text" name="lname" value="{{ profile.last_name }}">
-    <br><br>
-    <input type="submit" value="Update Profile">
-  </form>
-{% endblock %}
+  <div>
+    <form method="post" id="profile" class="card-body">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <br/>
+        <input type="text"
+               class="form-control"
+               name="email"
+               value="{{ user.email }}"
+               disabled/>
+      </div>
+      <div class="mb-3">
+        <label for="age" class="form-label">Age</label>
+        <br/>
+        <input type="number"
+               class="form-control"
+               name="age"
+               min="18"
+               max="100"
+               value="{{ profile.age }}"
+               required/>
+      </div>
+      <div class="mb-3">
+        <label for="fname" class="form-label">First Name</label>
+        <br/>
+        <input type="text"
+               class="form-control"
+               name="fname"
+               value="{{ profile.first_name }}"
+               required/>
+      </div>
+      <div class="mb-3">
+        <label for="lname" class="form-label">Last Name</label>
+        <br/>
+        <input type="text"
+               class="form-control"
+               name="lname"
+               value="{{ profile.last_name }}"/>
+      </div>
+      <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <br/>
+        <select class="form-select" name="gender">
+          <option value="M" {% if profile.gender == 'M' %}selected{% endif %}>
+            Male
+          </option>
+          <option value="F" {% if profile.gender == 'F' %}selected{% endif %}>
+            Female
+          </option>
+          <option value="N" {% if profile.gender == 'N' %}selected{% endif %}>
+            Non-Binary
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="preference" class="form-label">Preference</label>
+        <br/>
+        <select class="form-select" name="preference">
+          <option value="M" {% if profile.preference == 'M' %}selected{% endif %}>
+            Male
+          </option>
+          <option value="F" {% if profile.preference == 'F' %}selected{% endif %}>
+            Female
+          </option>
+          <option value="N" {% if profile.preference == 'N' %}selected{% endif %}>
+            Non-Binary
+          </option>
+          <option value="B" {% if profile.preference == 'B' %}selected{% endif %}>
+            Both/All
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="about" class="form-label">About</label>
+        <br/>
+        <textarea name="about" class="form-control" form="profile">{{ profile.about }}</textarea>
+      </div>
+      <input type="submit" value="Update Profile" class="btn btn-success" />
+    </form>
+  </div>
+{% endblock content %}

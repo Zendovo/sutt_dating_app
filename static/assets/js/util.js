@@ -86,6 +86,35 @@ async function sendReport(profileId) {
     window.location.replace('/')
 }
 
-async function deleteAccount(profile_id) {
-    // 
+function openDeleteAccountModal(reportId) {
+    var modal = new bootstrap.Modal(document.getElementById('deleteAccountModal'))
+    document.getElementById('deleteAccountModalBtn').setAttribute('onclick', `deleteAccount(${reportId})`)
+    modal.show()
+}
+
+async function deleteAccount(reportId) {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    formData = new FormData()
+    formData.append("action", 'delete_account')
+    await fetch(`/mod_reports/${reportId}`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        mode: 'same-origin',
+        body: formData
+    })
+
+    window.location.replace('/mod_reports')
+}
+
+async function deleteReport(reportId) {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    await fetch(`/mod_reports/${reportId}`, {
+        method: 'DELETE',
+        headers: { 'X-CSRFToken': csrftoken },
+        mode: 'same-origin',
+    })
+
+    window.location.replace('/mod_reports')
 }

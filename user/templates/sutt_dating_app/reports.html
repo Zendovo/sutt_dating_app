@@ -20,9 +20,8 @@
                     <div class="col-4">
                         <div class="row">
                             <div class="d-flex flex-row-reverse">
-                                <button class="btn btn-danger m-1" onclick="deleteAccount({{ request.id }})">Delete Account</button>
-                                <button class="btn btn-warning m-1" onclick="deleteReport({{ request.id }})">Delete Report</button>
-                                <button class="btn btn-secondary m-1" onclick="ignoreReport({{ request.id }})">Ignore</button>
+                                <button class="btn btn-danger m-1" onclick="openDeleteAccountModal({{ report.id }})">Delete Account</button>
+                                <button class="btn btn-warning m-1" onclick="deleteReport({{ report.id }})">Delete Report</button>
                             </div>
                         </div>
                     </div>
@@ -42,5 +41,27 @@
                 <a href="?page={{ page_obj.paginator.num_pages }}">last >></a>
             {% endif %}
         </span>
+    </div>
+
+    <div class="modal fade"
+         id="deleteAccountModal"
+         tabindex="-1"
+         aria-labelledby="deleteAccountModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">Are you sure you want to delete the account?</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="deleteAccount()" id="deleteAccountModalBtn" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

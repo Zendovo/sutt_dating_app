@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
-from user.models import UserProfile, BlockList, ChatRequest, Reports
+from user.models import NewUser, UserProfile, BlockList, ChatRequest, Reports
 from user.decorators import moderator_required
 
 
@@ -103,9 +103,21 @@ def ModReportsView(request):
 
 @login_required
 @moderator_required
-def ModReportsAction(request):
+def ModReportsAction(request, report_id):
     if request.method == 'POST':
-        return
+        action = request.POST['action']
+
+        if action == 'delete_account':
+            report = Reports.objects.get(id=report_id)
+            user = NewUser.objects.get(id=report.reported.user.id)
+            user.is_active = False
+            user.save()
+            report.delete()
+
+        return HttpResponse(status=200)
+    elif request.method == 'DELETE':
+        Reports.objects.get(id=report_id).delete()
+        return HttpResponse(status=200)
 
 
 @login_required

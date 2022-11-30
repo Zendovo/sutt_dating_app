@@ -8,18 +8,29 @@
     {% for profile in page_obj %}
         <div class="card">
             <div class="card-body row">
-                <div class="col-8">
+                <div class="col-7">
                     <h5 class="card-title">{{ profile.first_name }} {{ profile.last_name }}</h5>
                     <h6 class="class-subtitle">Age: {{ profile.age }}</h6>
                     <h6 class="class-subtitle">{{ profile.user.email }}</h6>
                     <p class="card-text">{{ profile.about }}</p>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
+                    <div class="text-center">
+                        <img src="{{ profile.image.url }}"
+                             alt="profile_pic"
+                             height="150"
+                             width="150"
+                             class="rounded-circle"/>
+                    </div>
+                </div>
+                <div class="col-2">
                     <div class="row">
                         <div class="d-flex flex-row-reverse">
-                            <button class="btn btn-success m-1" onclick="openRequestModal({{ profile.id }})">Send Chat Request</button>
+                            <button class="btn btn-success m-1"
+                                    onclick="openRequestModal({{ profile.id }})">Send Chat Request</button>
                             <button class="btn btn-warning m-1" onclick="block({{ profile.id }})">Block</button>
-                            <button class="btn btn-secondary m-1" onclick="openReportModal({{ profile.id }})">Report</button>
+                            <button class="btn btn-secondary m-1"
+                                    onclick="openReportModal({{ profile.id }})">Report</button>
                         </div>
                     </div>
                 </div>
@@ -54,16 +65,22 @@
                             aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea name="message" class="form-area" id="chatRequestMessage" cols="30" rows="10"></textarea>
+                    <textarea name="message"
+                              class="form-area"
+                              id="chatRequestMessage"
+                              cols="30"
+                              rows="10"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" onclick="sendRequest()" id="chatRequestModalBtn" class="btn btn-success">Send</button>
+                    <button type="button"
+                            onclick="sendRequest()"
+                            id="chatRequestModalBtn"
+                            class="btn btn-success">Send</button>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="modal fade"
          id="reportModal"
          tabindex="-1"
@@ -79,11 +96,18 @@
                             aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea name="message" class="form-area" id="reportMessage" cols="30" rows="10"></textarea>
+                    <textarea name="message"
+                              class="form-area"
+                              id="reportMessage"
+                              cols="30"
+                              rows="10"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" onclick="sendReport()" id="reportModalBtn" class="btn btn-warning">Report</button>
+                    <button type="button"
+                            onclick="sendReport()"
+                            id="reportModalBtn"
+                            class="btn btn-warning">Report</button>
                 </div>
             </div>
         </div>

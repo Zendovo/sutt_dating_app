@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import Index, BlockUser, BlockView, RequestsView, Requests, ModReportsView, ReportsView, ModReportsAction
 
 urlpatterns = [
@@ -26,7 +28,10 @@ urlpatterns = [
     path('block/<int:profile_id>', BlockUser),
     path('mod_reports/', ModReportsView),
     path('mod_reports/<int:report_id>', ModReportsAction),
-    path('report/<int:profile_id>', ReportsView),
+    path('report/', ReportsView),
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('user.urls'))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

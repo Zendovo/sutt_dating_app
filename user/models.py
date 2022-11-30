@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+import os
 
 
 class CustomAccountManager(BaseUserManager):
@@ -63,6 +64,12 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
+def image_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "pfp_pid_%s.%s" % (instance.user.userprofile.id, ext)
+    return os.path.join('profile_pics', filename)
+
+
 class UserProfile(models.Model):
     MALE = 'M'
     FEMALE = 'F'
@@ -84,6 +91,7 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     about = models.CharField(max_length=3000)
+    image = models.ImageField(default='default.jpg', upload_to=image_path)
     blocklist = models.ManyToManyField(
         'UserProfile', related_name='blocked_by', through='BlockList', symmetrical=False, blank=False)
     chat_requests = models.ManyToManyField(
@@ -93,6 +101,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email + ' profile'
+
+    class Meta:
+        ordering = ['first_name']
 
 
 class BlockList(models.Model):

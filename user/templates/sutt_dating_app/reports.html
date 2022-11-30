@@ -9,7 +9,7 @@
         {% for report in page_obj %}
             <div class="card">
                 <div class="card-body row">
-                    <div class="col-8">
+                    <div class="col-7">
                         <h5 class="card-title">{{ report.reported.first_name }} {{ report.reported.last_name }}</h5>
                         <h6 class="class-subtitle">Age: {{ report.reported.age }}</h6>
                         <h6 class="class-subtitle">{{ report.reported.user.email }}</h6>
@@ -17,7 +17,16 @@
                         <h6 class="class-subtitle">Report Message:</h6>
                         <p class="card-text">{{ report.message }}</p>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
+                        <div class="text-center">
+                            <img src="{{ report.reported.image.url }}"
+                                 alt="profile_pic"
+                                 height="150"
+                                 width="150"
+                                 class="rounded-circle"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
                         <div class="row">
                             <div class="d-flex flex-row-reverse">
                                 <button class="btn btn-danger m-1" onclick="openDeleteAccountModal({{ report.id }})">Delete Account</button>

@@ -36,8 +36,6 @@ class ChatRoom(View):
             chat.unread = chat.chatmessages_set.filter(~Q(sender=request.user.userprofile), seen=False).count()
 
         messages = current_chat.chatmessages_set.all()
-        for m in messages:
-            print(m.message)
         return render(request, 'chat/chatroom.html', {
             'chat_id': chat_id,
             'chats': all_chats,

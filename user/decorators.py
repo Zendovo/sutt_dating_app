@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def moderator_required(view_func):
@@ -30,7 +30,7 @@ def profile_required(view_func):
                 return view_func(request, *args, **kwargs)
             else:
                 return HttpResponseRedirect('/accounts/profile/')
-        except:
+        except ObjectDoesNotExist:
             return HttpResponseRedirect('/accounts/profile/')
     return wrap
 

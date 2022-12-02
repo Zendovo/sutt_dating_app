@@ -31,7 +31,8 @@ def ProfileView(request):
                 gprofile.gender = gender
                 gprofile.preference = pref
                 gprofile.about = about
-                gprofile.image = image
+                if not image == 'default.jpg':
+                    gprofile.image = image
                 gprofile.save()
             except ObjectDoesNotExist:
                 UserProfile.objects.create(age=age, user=request.user, first_name=fname,

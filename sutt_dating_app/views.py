@@ -3,15 +3,26 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from user.models import NewUser, UserProfile, BlockList, ChatRequest, Reports
-from chat.models import ChatMessages
+from django.db.models import Q
 from user.decorators import moderator_required, profile_required
 
 
 @login_required
 @profile_required
 def Index(request):
-    profiles = UserProfile.objects.raw('SELECT * FROM user_userprofile uu LEFT JOIN user_blocklist ub ON uu.id IN (ub.blocked_id, ub.blocker_id) AND %s IN (ub.blocked_id, ub.blocker_id) WHERE ub.id IS NULL AND uu.id <> %s;', [
-                                       request.user.userprofile.id, request.user.userprofile.id])
+    query = request.GET.get('query')
+
+    a = request.user.userprofile.blocklist.all()
+    a_ids = []
+    for i in a:
+        a_ids.append(i.id)
+    b = request.user.userprofile.blocked_by.all()
+    b_ids = []
+    for i in b:
+        b_ids.append(i.id)
+    if not query:
+        query = ''
+    profiles = UserProfile.objects.exclude(Q(id__in=a_ids) | Q(id__in=b_ids), id__exact=request.user.userprofile.id).filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
     paginator = Paginator(profiles, 2)
 
     page_number = request.GET.get('page')
@@ -142,7 +153,6 @@ def ReportsView(request):
         reported = int(request.POST['profile_id'])
         reported = UserProfile.objects.get(id=reported)
         message = request.POST['message']
-        print(message)
 
         Reports.objects.create(
             message=message, reported=reported, reporter=request.user.userprofile)

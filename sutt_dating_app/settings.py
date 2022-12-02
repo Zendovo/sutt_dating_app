@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'user',
     'chat',
+    'mod',
     'channels',
     'allauth',
     'allauth.account',

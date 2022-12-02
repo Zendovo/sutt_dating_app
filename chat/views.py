@@ -5,10 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound
 from user.models import ChatRequest
 from django.db.models import Q
-# from user.decorators import moderator_required
+from user.decorators import profile_required
 
 # Create your views here.
 @method_decorator(login_required, name='dispatch')
+@method_decorator(profile_required, name='dispatch')
 class Index(View):
     def get(self, request, *args, **kwargs):
         all_chats = ChatRequest.objects.filter(Q(req_from=request.user.userprofile) | Q(req_to=request.user.userprofile), status__exact='A')
@@ -21,6 +22,7 @@ class Index(View):
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(profile_required, name='dispatch')
 class ChatRoom(View):
     def get(self, request, *args, **kwargs):
         chat_id = self.kwargs['chat_id']

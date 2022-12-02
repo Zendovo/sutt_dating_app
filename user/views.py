@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ProfileForm
+from .decorators import redirect_mod
 
 # Create your views here.
 
 
 @login_required
+@redirect_mod
 def ProfileView(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)

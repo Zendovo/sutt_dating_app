@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+<html lang="en-US">
+    <head>
+        <title>
+            {% block head_title %}
+            {% endblock head_title %}
+        </title>
+        {% block extra_head %}
+        {% endblock extra_head %}
+        <meta charset="utf-8" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+              crossorigin="anonymous"/>
+        <script src="{% static 'assets/js/util.js' %}"></script>
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <!-- Header -->
+        <section class="header">
+            <!-- Nav -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">Dating App</a>
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavAltMarkup"
+                            aria-controls="navbarNavAltMarkup"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-link" href="/mod">Home</a>
+                            <a class="nav-link" href="/mod_reports">Reports</a>
+                            <a class="nav-link" href="/accounts/logout">Logout</a>
+                            <span class="nav-link">{{ user.email }}</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Banner -->
+            {% comment %} <section id="banner">
+							<header>
+								<h2>Howdy. This is Dopetrope.</h2>
+								<p>A responsive template by HTML5 UP</p>
+							</header>
+            </section> {% endcomment %}
+            <!-- Intro -->
+            {% comment %} <section id="intro" class="container">
+							<div class="row">
+								<div class="col-4 col-12-medium">
+									<section class="first">
+										<i class="icon solid featured fa-cog"></i>
+										<header>
+											<h2>Ipsum consequat</h2>
+										</header>
+										<p>Nisl amet dolor sit ipsum veroeros sed blandit consequat veroeros et magna tempus.</p>
+									</section>
+								</div>
+								<div class="col-4 col-12-medium">
+									<section class="middle">
+										<i class="icon solid featured alt fa-bolt"></i>
+										<header>
+											<h2>Magna etiam dolor</h2>
+										</header>
+										<p>Nisl amet dolor sit ipsum veroeros sed blandit consequat veroeros et magna tempus.</p>
+									</section>
+								</div>
+								<div class="col-4 col-12-medium">
+									<section class="last">
+										<i class="icon solid featured alt2 fa-star"></i>
+										<header>
+											<h2>Tempus adipiscing</h2>
+										</header>
+										<p>Nisl amet dolor sit ipsum veroeros sed blandit consequat veroeros et magna tempus.</p>
+									</section>
+								</div>
+							</div>
+							<footer>
+								<ul class="actions">
+									<li><a href="#" class="button large">Get Started</a></li>
+									<li><a href="#" class="button alt large">Learn More</a></li>
+								</ul>
+							</footer>
+            </section> {% endcomment %}
+        </section>
+        <!-- Main -->
+        <main class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 p-2">
+                        {% block body %}
+                            {% if messages %}
+                                <div>
+                                    <strong>Messages:</strong>
+                                    <ul>
+                                        {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            {% block content %}
+                            {% endblock content %}
+                        {% endblock body %}
+                        {% block extra_body %}
+                        {% endblock extra_body %}
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="mt-auto footer py-3 text-white bg-dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <span class="display-12 font-monospace">Dating App 2022</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>

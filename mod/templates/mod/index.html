@@ -1,0 +1,10 @@
+{% extends "mod/base.html" %}
+{% load i18n %}
+{% block head_title %}
+    {% trans "Moderator" %}
+{% endblock head_title %}
+{% block content %}
+    <div class="row">
+        Welcome {{ request.user.email }}
+    </div>
+{% endblock content %}

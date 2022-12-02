@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from user.models import NewUser, UserProfile, BlockList, ChatRequest, Reports
 from chat.models import ChatMessages
-from user.decorators import moderator_required
+from user.decorators import moderator_required, profile_required
 
 
 @login_required
+@profile_required
 def Index(request):
     profiles = UserProfile.objects.raw('SELECT * FROM user_userprofile uu LEFT JOIN user_blocklist ub ON uu.id IN (ub.blocked_id, ub.blocker_id) AND %s IN (ub.blocked_id, ub.blocker_id) WHERE ub.id IS NULL AND uu.id <> %s;', [
                                        request.user.userprofile.id, request.user.userprofile.id])
@@ -19,6 +20,7 @@ def Index(request):
 
 
 @login_required
+@profile_required
 def BlockUser(request, profile_id):
     if request.method == 'POST':
         # block user
@@ -35,6 +37,7 @@ def BlockUser(request, profile_id):
 
 
 @login_required
+@profile_required
 def BlockView(request):
     profiles = request.user.userprofile.blocklist.all()
     paginator = Paginator(profiles, 2)
@@ -45,6 +48,7 @@ def BlockView(request):
 
 
 @login_required
+@profile_required
 def Requests(request, request_id):
     # Accept User Request
     if request.method == 'POST':
@@ -68,6 +72,7 @@ def Requests(request, request_id):
 
 
 @login_required
+@profile_required
 def RequestsView(request):
     if request.method == 'GET':
         requests = ChatRequest.objects.filter(
@@ -131,6 +136,7 @@ def ModReportsAction(request, report_id):
 
 
 @login_required
+@profile_required
 def ReportsView(request):
     if request.method == 'POST':
         reported = int(request.POST['profile_id'])

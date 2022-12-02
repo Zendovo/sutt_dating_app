@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Index),
     path('chat/', include('chat.urls')),
+    path('mod/', include('mod.urls')),
     path('request/', RequestsView),
     path('request/<int:request_id>', Requests),
     path('block/', BlockView),

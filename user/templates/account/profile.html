@@ -1,5 +1,6 @@
 {% extends "account/base.html" %}
 {% load i18n %}
+{% load django_bootstrap5 %}
 {% block head_title %}
   {% trans "Profile" %}
 {% endblock head_title %}
@@ -15,10 +16,13 @@
       </div>
     </div>
     <div class="col-9">
-      <form method="post" id="profile" class="card-body">
+      <form method="post"
+            id="profile"
+            class="card-body"
+            enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class"btn btn-primary>
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="OK" %}
       </form>
     </div>
   </div>

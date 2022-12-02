@@ -24,6 +24,9 @@ chatSocket.onmessage = function (e) {
     message.appendChild(msgContent)
 
     document.getElementById('messages').appendChild(message);
+
+    msgDiv = document.getElementById('messages')
+    msgDiv.scrollTop += 100000
 };
 
 chatSocket.onclose = function (e) {

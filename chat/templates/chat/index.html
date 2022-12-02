@@ -1,0 +1,57 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block head_title %}
+    {% trans "Chats" %}
+{% endblock head_title %}
+{% block extra_head %}
+{% endblock extra_head %}
+{% block content %}
+    <div class="row border rounded">
+        <div class="col-3 overflow-auto">
+            <div class="row bg-secondary text-light">
+                <div class="fw-bold">Chats</div>
+            </div>
+            {% for chat in chats %}
+                <div id="/chat/{{ chat.id }}/"
+                     onclick="window.location.replace('/chat/{{ chat.id }}')"
+                     class="row {% if chat.id == chat_id %} bg-dark text-light {% else %} bg-light {% endif %} border border-secondary p-3 ">
+                    {% if chat.req_from == request.user.userprofile %}
+                        <div class="col-3 text-center">
+                            <img src="{{ chat.req_to.image.url }}"
+                                 alt="pfp"
+                                 width="50"
+                                 height="50"
+                                 class="rounded-circle"/>
+                        </div>
+                        <div class="col-9">
+                            <div>{{ chat.req_to.first_name }} {{ chat.req_to.last_name }}</div>
+                            <div>{{ chat.unread }} unread messages</div>
+                        </div>
+                    {% else %}
+                        <div class="col-3 text-center">
+                            <img src="{{ chat.req_from.image.url }}"
+                                 alt="pfp"
+                                 width="50"
+                                 height="50"
+                                 class="rounded-circle"/>
+                        </div>
+                        <div class="col-9">
+                            <div>{{ chat.req_from.first_name }} {{ chat.req_from.last_name }}</div>
+                            <div>{{ chat.unread }} unread messages</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-9 border pb-3">
+            <div class="m-1 text-center position-relative"
+                 id="messages"
+                 style="height: 60vh;
+                        overflow-y: auto;
+                        overflow-x: hidden">
+                <div class="text-secondary position-absolute top-50 start-50">Select a chat</div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

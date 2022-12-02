@@ -1,0 +1,109 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block head_title %}
+    {% trans "Chats" %}
+{% endblock head_title %}
+{% block extra_head %}
+{% endblock extra_head %}
+{% block content %}
+    <div class="row border rounded">
+        <div class="col-3 overflow-auto">
+            <div class="row bg-secondary text-light">
+                <div class="fw-bold">Chats</div>
+            </div>
+            {% for chat in chats %}
+                <div id="/chat/{{ chat.id }}/"
+                     onclick="window.location.replace('/chat/{{ chat.id }}')"
+                     class="row {% if chat.id == chat_id %} bg-dark text-light {% else %} bg-light {% endif %} border border-secondary p-3 ">
+                    {% if chat.req_from == request.user.userprofile %}
+                        <div class="col-3 text-center">
+                            <img src="{{ chat.req_to.image.url }}"
+                                 alt="pfp"
+                                 width="50"
+                                 height="50"
+                                 class="rounded-circle"/>
+                        </div>
+                        <div class="col-9">
+                            <div>{{ chat.req_to.first_name }} {{ chat.req_to.last_name }}</div>
+                            <div>{{ chat.unread }} unread messages</div>
+                        </div>
+                    {% else %}
+                        <div class="col-3 text-center">
+                            <img src="{{ chat.req_from.image.url }}"
+                                 alt="pfp"
+                                 width="50"
+                                 height="50"
+                                 class="rounded-circle"/>
+                        </div>
+                        <div class="col-9">
+                            <div>{{ chat.req_from.first_name }} {{ chat.req_from.last_name }}</div>
+                            <div>{{ chat.unread }} unread messages</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-9 border pb-3">
+            <div class="row bg-dark text-light">
+                {% if current_chat.req_from == request.user.userprofile %}
+                    <div class="col-1 p-3">
+                        <img src="{{ current_chat.req_to.image.url }}"
+                             alt="pfp"
+                             width="50"
+                             height="50"
+                             class="rounded-circle"/>
+                    </div>
+                    <div class="col-11 py-3">
+                        <div class="fw-bold">{{ current_chat.req_to.first_name }} {{ current_chat.req_to.last_name }}</div>
+                        <div>{{ current_chat.req_to.user.email }}</div>
+                    </div>
+                {% else %}
+                    <div class="col-1 p-3">
+                        <img src="{{ current_chat.req_from.image.url }}"
+                             alt="pfp"
+                             width="50"
+                             height="50"
+                             class="rounded-circle"/>
+                    </div>
+                    <div class="col-11 py-3">
+                        <div class="fw-bold">{{ current_chat.req_from.first_name }} {{ current_chat.req_from.last_name }}</div>
+                        <div>{{ current_chat.req_from.user.email }}</div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="m-1"
+                 id="messages"
+                 style="height: 60vh;
+                        overflow-y: auto;
+                        overflow-x: hidden">
+                {% for message in msgs %}
+                    <div class="message row mt-2">
+                        <div class="row fw-bold px-4">
+                            {% if message.sender == request.user.userprofile %}
+                                {{ request.user.userprofile.first_name }} {{ request.user.userprofile.last_name }}
+                            {% else %}
+                                {{ message.sender.first_name }} {{ message.sender.last_name }}
+                            {% endif %}
+                        </div>
+                        <div class="row px-4">{{ message.message }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <input class="form-control rounded-top"
+                       id="chat-message-input"
+                       type="text"
+                       size="100"/>
+                <input class="btn btn-primary rounded-bottom form-control"
+                       id="chat-message-submit"
+                       type="button"
+                       value="Send"/>
+            </div>
+        </div>
+    </div>
+    {{ chat_id|json_script:'chat-id' }}
+    {{ request.user.userprofile.first_name|json_script:'first-name' }}
+    {{ request.user.userprofile.last_name|json_script:'last-name' }}
+    <script src="{% static 'assets/js/chat.js' %}"></script>
+{% endblock content %}

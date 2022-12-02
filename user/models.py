@@ -128,7 +128,7 @@ class ChatRequest(models.Model):
     req_to = models.ForeignKey(
         UserProfile, related_name="user_to", on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=[(
-        'A', 'Accepted'), ('D', 'Declined'), ('N', 'Unseen')], default='U', null=False)
+        'A', 'Accepted'), ('D', 'Declined'), ('U', 'Unseen')], default='U', null=False)
 
     class Meta:
         unique_together = ('req_from', 'req_to')

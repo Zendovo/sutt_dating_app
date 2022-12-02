@@ -22,6 +22,7 @@ from .views import Index, BlockUser, BlockView, RequestsView, Requests, ModRepor
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Index),
+    path('chat/', include('chat.urls')),
     path('request/', RequestsView),
     path('request/<int:request_id>', Requests),
     path('block/', BlockView),

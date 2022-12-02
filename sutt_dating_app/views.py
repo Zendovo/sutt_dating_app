@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from user.models import NewUser, UserProfile, BlockList, ChatRequest, Reports
+from chat.models import ChatMessages
 from user.decorators import moderator_required
 
 
@@ -51,6 +52,9 @@ def Requests(request, request_id):
         req.status = 'A'
         req.save()
 
+        msg = req.message
+        req.chatmessages_set.create(message=msg, sender=req.req_from)        
+
         return HttpResponse(status=200)
     # Decline User Request
     elif request.method == 'DELETE':
@@ -67,7 +71,7 @@ def Requests(request, request_id):
 def RequestsView(request):
     if request.method == 'GET':
         requests = ChatRequest.objects.filter(
-            req_to__id=request.user.userprofile.id)
+            req_to__id=request.user.userprofile.id, status__exact='U')
         paginator = Paginator(requests, 2)
 
         page_number = request.GET.get('page')
@@ -78,13 +82,19 @@ def RequestsView(request):
         request_to = UserProfile.objects.get(id=request_to)
         message = request.POST['message']
 
-        # TODO:
-        # before creation check if the user has a pending chat request from the same user
-        # in that case send the opening message in the chat and accept the request
+        prior = ChatRequest.objects.filter(req_to=request.user.userprofile, req_from=request_to)
+        if len(prior) > 0:
+            prior[0].status = 'A'
+            msg = prior[0].message
+            prior[0].chatmessages_set.create(message=msg, sender=prior[0].req_from)
+            prior[0].chatmessages_set.create(message=message, sender=request.user.userprofile)
+            prior[0].save()
+            return redirect('/chatroom/')
+
         ChatRequest.objects.create(
             req_from=request.user.userprofile, req_to=request_to, message=message)
 
-        return redirect('/chat_pending/')
+        return redirect('/chatroom/')
 
 
 @login_required

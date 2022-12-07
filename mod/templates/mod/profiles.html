@@ -6,6 +6,7 @@
 {% endblock head_title %}
 {% block content %}
     <div class="row">
-        Welcome {{ request.user.email }}
+        <h1 class="heading">Profiles</h1>
+        {% render_table table %}
     </div>
 {% endblock content %}

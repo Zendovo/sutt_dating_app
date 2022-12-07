@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'user',
     'chat',
     'mod',
+    'django_tables2',
     'channels',
     'allauth',
     'allauth.account',
@@ -167,6 +168,8 @@ STATICFILES_DIRS = [
 ]
 
 ASGI_APPLICATION = 'sutt_dating_app.asgi.application'
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

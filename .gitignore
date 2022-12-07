@@ -2,3 +2,4 @@
 *.pyc
 db.sqlite3
 media/
+sutt_dating_app/.env

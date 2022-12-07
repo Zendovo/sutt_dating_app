@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 import os
@@ -150,3 +152,13 @@ class Reports(models.Model):
 
     def __str__(self):
         return self.reporter.user.email + " reported " + self.reported.user.email
+
+
+def chat_req_email(sender, instance, created, **kwargs):
+
+    if created:
+        body = 'You have received a chat request from ' + instance.req_from.first_name + " " + instance.req_from.last_name + '!. Open your profile to start chatting!'
+        send_mail(f'Chat Request from {instance.req_from.first_name}', body, instance.req_from.user.email, [instance.req_to.user.email], fail_silently=False)
+
+
+post_save.connect(chat_req_email, sender=ChatRequest)
